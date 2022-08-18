@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% comment %} <style>
+    table, th, td {
+      border:1px solid black;
+    }
+    </style> {% endcomment %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <title>Broadcasts</title>
+    <style>
+      table, th, td {
+        border:1px solid black;
+      }
+      table{
+        text-align:center;
+      }
+      .tableFixHead {
+        overflow-y: auto;
+        height:330px;
+        
+      }
+      .tableFixHead thead th {
+        position: sticky;
+        top: 0;
+      }
+      th {
+        background: #eee;
+      }
+      .nav{
+        background-color:green;
+      }
+      .form
+      {
+          
+            
+            margin:30px;
+            padding: 20px;
+            width: 35em; 
+            height: 30em;  
+            background-color:#90ee90; 
+            
+        
+      }
+      .container
+      {
+        margin-top: 50px;
+     
+      }
+      a {
+  color: #FFF;
+  text-decoration: none;
+}
+a:hover {
+   color: #000
+}
+      </style>
+</head>
+<body>
+  <div class="container "  >
+
+   <form action="/filter" method="post"> {% csrf_token %}
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="mb-3" style="margin: 1rem;">
+          <label for="startDate" >From&nbsp&nbsp&nbsp</label>
+          <input  name="startDate" type="date" id="startDate">
+          <label for="endDate" >&nbsp&nbsp&nbsp&nbsp&nbsp&nbspTo&nbsp&nbsp&nbsp</label>
+          <input  name="endDate" type="date"id="endDate" >
+        </div>
+        <!-- <div class="mb-3" style="margin: 1rem;">
+          <label for="endDate" >To</label>
+          <input  name="endDate" type="date"id="endDate">
+        </div> -->
+      </div>
+
+
+
+      <div class="col-sm-6">
+      <div class="mb-3" style="margin: 1rem;">
+        <label for="filterCategory" >Category</label>
+        <input  name="filtercategory" list="filtercategoryname" id="filterCategory">
+        <datalist id="filtercategoryname">
+          <option value="Pest and Disease">
+          <option value="Category2">
+            <option value="Category3">
+        </datalist>
+        <label for="filterFormat" >Format&nbsp&nbsp&nbsp</label>
+        <input name="filterformat" list="filterFormatname" id="filterFormat">
+      <datalist id="filterFormatname">
+        <option value="Image">
+        <option value="Youtube">
+          <option value="PDF">
+      </datalist>
+     
+    </div>
+      <!-- <div class="col-sm-2">
+      <div class="mb-3" style="margin: 1rem;">
+        <label for="filterFormat" >Format&nbsp&nbsp&nbsp</label>
+        <input name="filterformat" list="filterFormatname" id="filterFormat">
+      <datalist id="filterFormatname">
+        <option value="Image">
+        <option value="Youtube">
+          <option value="PDF">
+      </datalist>
+      </div> -->
+      
+    <!-- </div> -->
+    <div class="mb-3" style="margin: 1rem;">
+      <input class="btn btn-primary" type="submit" value="Apply">
+      <a href="/"><input class="btn btn-primary"  value="Clear"></a>
+
+    </div>
+    </div>
+    
+  </div>
+</form>
+
+<!-- Button trigger modal -->
+<button style='height:50px ; width:100px ;text-align:center' type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+   + Add
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/postcreate/" method="post">
+          {% csrf_token %}
+        
+          Document Upload:
+          <input type="file" name="files[]" id="files" />
+          <input type="hidden" name="url" id="url" />
+          <input class="btn btn-outline-success" type="button" value="Upload" onclick="uploadimage()">
+          {% comment %} <button type="button" onclick="uploadimage()">Upload</button><br /><br /> {% endcomment %}
+          
+        </form>
+    
+      
+     
+     
+     
+       <form action="/broadcastviewset/" method="post" autocomplete="off">{%csrf_token%}
+     
+         <div class="mb-6">
+             <label for="Topic" class="form-label">Topic</label>
+             <input type="text" class="form-control" id="Topic" name="topic" >
+           </div>
+     
+           <div class="mb-6">
+           <label for="Category" class="form-label">Category</label>
+           <input  name="category" list="categoryname" id="Category"class="form-control">
+           <datalist id="categoryname">
+             <option value="Pest and Disease">
+             <option value="Category2">
+               <option value="Category3">
+           </datalist>
+         </div>
+     
+     
+          
+           <div class="mb-6">
+             <label for="Description" class="form-label">Description</label>
+             <input type="text" class="form-control" id="Description" name="description" >
+           </div>
+     
+           <div class="mb-3">
+             <label for="Format" class="form-label">Format</label>
+             <input name="format" list="Formatname" id="Format" class="form-control">
+           <datalist id="Formatname">
+             <option value="Image">
+             <option value="Youtube">
+               <option value="PDF">
+           </datalist>
+     
+           </div>
+     
+           <div class="mb-3">
+             <label for="Link" class="form-label">Link</label>
+             <input type="text" class="form-control" id="Link" name="link" >
+           </div>
+           
+          {% comment %} <button type="submit">submit</button> {% endcomment %}
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancle</button>
+            <input class="btn btn-primary" type="submit" value="Submit">
+          </div>
+         
+       </form>
+        
+      </div>
+     
+    </div>
+  </div>
+</div>
+
+      
+   
+<center style="padding-top:5rem ;" >
+<div class="tableFixHead">
+ <table style="width:100%">
+  <thead>
+  <tr>
+    <th style='padding : 10px ; font-size:20px'>Topic</th>
+    <th style='padding : 10px ; font-size:20px'>Date</th>
+    <th style='padding : 10px ; font-size:20px'>Category</th>
+    <th style='padding : 10px ; font-size:20px'>Format</th>
+    <th style='padding : 10px ; font-size:20px'>Actions</th>
+
+
+  </tr>
+</thead>
+<tbody>
+  {%for b in bd %}
+  <tr>
+    <td style='padding : 15px'>{{b.topic}}  </td>
+    <td style='padding : 15px'>{{b.date}} </td>
+    <td style='padding : 15px'>{{b.category}} </td>
+    <td style='padding : 15px'>{{b.format}} </td>
+    <td><button style="margin: 0.1rem;" type="button" class="btn btn-primary"><a href={{b.link}}>&nbspView&nbsp</a></button>
+      <button style=" margin: 0.1rem;" type="button" class="btn btn-primary"><a href="delete/{{b.uid }}">Delete</a></button>
+ </td>
+  </tr>
+  {%endfor%}
+</tbody>
+</table>
+</div>
+
+
+
+
+     
+
+
+
+
+
+    <!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.4/firebase.js">
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+<script>
+  document.getElementById('endDate').valueAsDate = new Date();
+  document.getElementById('filterCategory').value = "All";
+  document.getElementById('filterFormat').value = "All";
+  var firebaseConfig = {
+    apiKey: "AIzaSyAJg2NBf7ryg73jqvlv5YSez6PHmPF8vbM",
+    authDomain: "fir-5f83e.firebaseapp.com",
+    databaseURL: "https://fir-5f83e-default-rtdb.firebaseio.com",
+    storageBucket: "fir-5f83e.appspot.com",
+  };
+  firebase.initializeApp(firebaseConfig);
+  function uploadimage() {
+    var storage = firebase.storage();
+    var file = document.getElementById("files").files[0];
+    var storageref = storage.ref();
+    var thisref = storageref.child(file.name).put(file);
+    thisref.on(
+      "state_changed",
+      function (snapshot) {
+        console.log("Done");
+      },
+      function (error) {
+        console.log("Error", error);
+      },
+      function () {
+        // Uploaded completed successfully, now we can get the download URL
+        thisref.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+          console.log("File available at", downloadURL);
+          document.getElementById("url").value = downloadURL;
+          document.getElementById("Link").value = downloadURL;
+          alert("uploaded successfully");
+        });
+      }
+    );
+  }
+ 
+
+  // if(document.getElementById("Format").value=="Image"||document.getElementById("Format").value=="PDF" ){
+  //   document.getElementById("form").innerHTML+= 
+  //   <form action="/postcreate/" method="post">
+  //     Document Upload:
+  //     <input type="file" name="files[]" id="files" />
+  //     <input type="hidden" name="url" id="url" />
+  //     <input class="btn btn-outline-success" type="button" value="Upload" onclick="uploadimage()"/>
+      
+      
+  //   </form>
+  // }
+  
+
+</script>
+</body>
+</html>
